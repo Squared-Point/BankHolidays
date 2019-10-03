@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace SquaredPoint\BankHolidays;
 
-use SquaredPoint\BankHolidays\Exception\InvalidPostalCodeException;
 use SquaredPoint\BankHolidays\Value\SpanishPostalCode;
-
-
 
 use PHPUnit\Framework\TestCase;
 
@@ -49,9 +46,10 @@ class SpanishPostalCodeTest extends TestCase
     {
         return array(
           array(true),
-          array(1),
+          array(13200),
           array(5.56),
-          array(new \DateTime())
+          array(new \DateTime()),
+          array(null)
         );
     }
 
@@ -65,14 +63,21 @@ class SpanishPostalCodeTest extends TestCase
      */
     public function testCorrectSpanishPostalCodes($rawPostalCode) : void
     {
-        new SpanishPostalCode($rawPostalCode);
-         $this->assertTrue(true);
+        try
+        {
+          new SpanishPostalCode($rawPostalCode);
+        }
+        catch(\Exception $e)
+        {
+          $this->assert(false);
+        }
 
+        $this->assertTrue(true);
     }
 
     /**
      * @dataProvider incorrectLengthSpanishPostalCodesProvider
-     * @expectedException InvalidPostalCodeException
+     * @expectedException SquaredPoint\BankHolidays\Exception\InvalidPostalCodeException
      */
     public function testIncorrectLenghtPostalCodes($rawPostalCode) : void
     {
@@ -81,7 +86,7 @@ class SpanishPostalCodeTest extends TestCase
 
     /**
      * @dataProvider incorrectCharSpanishPostalCodesProvider
-     * @expectedException InvalidPostalCodeException
+     * @expectedException SquaredPoint\BankHolidays\Exception\InvalidPostalCodeException
      */
     public function testIncorrectCharPostalCodes($rawPostalCode) : void
     {
@@ -90,7 +95,7 @@ class SpanishPostalCodeTest extends TestCase
 
     /**
      * @dataProvider incorrectTypeSpanishPostalCodesProvider
-     * @expectedException InvalidPostalCodeException
+     * @expectedException SquaredPoint\BankHolidays\Exception\InvalidPostalCodeException
      */
     public function testIncorrectTypePostalCodes($rawPostalCode) : void
     {
