@@ -47,8 +47,28 @@ class SpanishPostalCode
     	return;
     }
 
+    /**
+    * @var $cp can be any type - we absorb bad formats as NOT greater than...
+    */
     public function isGreaterThan($cp) : bool
     {
+        try
+        {
+            if( ! $cp instanceof SpanishPostalCode )
+            {
+                $cp = new SpanishPostalCode($cp);
+            }
+        }
+        catch(InvalidPostalCodeException $e)
+        {
+            return false;
+        }
+
+        if(strcmp($this->postalCode, $cp->postalCode) > 0)
+        {
+            return true;
+        }
+
         return false;
     }
 }
