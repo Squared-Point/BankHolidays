@@ -56,12 +56,12 @@ class SpanishPostalCodeTest extends TestCase
     public function isGreaterThanProvider()
     {
       return [
-        [new SpanishPostalCode('08018'), '08045'],
+        [new SpanishPostalCode('08045'), '08018'],
         [new SpanishPostalCode('13018'), '08045'],
         [new SpanishPostalCode('25008'), '08015'],
         [new SpanishPostalCode('65218'), '45033'],
 
-        [new SpanishPostalCode('08018'), new SpanishPostalCode('08045')],
+        [new SpanishPostalCode('08045'), new SpanishPostalCode('08018')],
         [new SpanishPostalCode('13018'), new SpanishPostalCode('08045')],
         [new SpanishPostalCode('25008'), new SpanishPostalCode('08015')],
         [new SpanishPostalCode('65218'), new SpanishPostalCode('45033')]
@@ -71,12 +71,12 @@ class SpanishPostalCodeTest extends TestCase
     public function isNotGreaterThanProvider()
     {
       return [
-        [new SpanishPostalCode('08045'), '08018'],
+        [new SpanishPostalCode('08018'), '08045'],
         [new SpanishPostalCode('08045'), '13018'],
         [new SpanishPostalCode('08015'), '25008'],
         [new SpanishPostalCode('45033'), '65218'],
 
-        [new SpanishPostalCode('08045'), new SpanishPostalCode('08018')],
+        [new SpanishPostalCode('08018'), new SpanishPostalCode('08045')],
         [new SpanishPostalCode('08045'), new SpanishPostalCode('13018')],
         [new SpanishPostalCode('08015'), new SpanishPostalCode('25008')],
         [new SpanishPostalCode('45033'), new SpanishPostalCode('65218')],
