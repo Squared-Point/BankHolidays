@@ -10,12 +10,20 @@ class SpanishPostalCode
 {
 	private $postalCode;
 
+   /**
+    * @var $rawPostalCode string
+    * @throws InvalidPostalCodeException
+    */
     public function __construct($rawPostalCode)
     {
     	$this->checkRawPostalCodeFormat($rawPostalCode);
     	$this->postalCode = $rawPostalCode;
     }
 
+    /**
+    * @var $rawPostalCode string
+    * @throws InvalidPostalCodeException
+    */
     private function checkRawPostalCodeFormat($rawPostalCode)
     {
     	if( ! is_string($rawPostalCode))
@@ -37,5 +45,10 @@ class SpanishPostalCode
     	}
 
     	return;
+    }
+
+    public function isGreaterThan($cp) : bool
+    {
+        return false;
     }
 }
