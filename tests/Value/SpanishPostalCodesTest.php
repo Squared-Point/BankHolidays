@@ -87,19 +87,42 @@ class SpanishPostalCodeTest extends TestCase
         [new SpanishPostalCode('45033'), '6521'],
         [new SpanishPostalCode('45033'), '6521e']
       ];
+    }
 
-      $finalCps = [];
-      foreach($baseCps as $cpPair)
-      {
-        $firstCp = new SpanishPostalCode($cpPair[0]);
-        $secondCpText = $cpPair[1];
-        $secondCpObject = new SpanishPostalCode($cpPair[1]);
+    public function isGreaterThanOrEqualToProvider()
+    {
+      return [
+        [new SpanishPostalCode('08045'), '08018'],
+        [new SpanishPostalCode('13018'), '08045'],
+        [new SpanishPostalCode('25008'), '08015'],
+        [new SpanishPostalCode('65218'), '45033'],
 
-        $finalCps[] = [$firstCp, $secondCpText];
-        $finalCps[] = [$firstCp, $secondCpObject];
-      }
+        [new SpanishPostalCode('08045'), new SpanishPostalCode('08018')],
+        [new SpanishPostalCode('13018'), new SpanishPostalCode('08045')],
+        [new SpanishPostalCode('25008'), new SpanishPostalCode('08015')],
+        [new SpanishPostalCode('65218'), new SpanishPostalCode('45033')],
 
-      return $finalCps;
+        [new SpanishPostalCode('45033'), '45033'],
+        [new SpanishPostalCode('45033'), new SpanishPostalCode('45033')],
+      ];
+    }
+
+    public function isNotGreaterThanOrEqualToProvider()
+    {
+      return [
+        [new SpanishPostalCode('08018'), '08045'],
+        [new SpanishPostalCode('08045'), '13018'],
+        [new SpanishPostalCode('08015'), '25008'],
+        [new SpanishPostalCode('45033'), '65218'],
+
+        [new SpanishPostalCode('08018'), new SpanishPostalCode('08045')],
+        [new SpanishPostalCode('08045'), new SpanishPostalCode('13018')],
+        [new SpanishPostalCode('08015'), new SpanishPostalCode('25008')],
+        [new SpanishPostalCode('45033'), new SpanishPostalCode('65218')],        
+
+        [new SpanishPostalCode('45033'), '6521'],
+        [new SpanishPostalCode('45033'), '6521e']
+      ];
     }
 
     protected function setUp() : void
@@ -165,5 +188,21 @@ class SpanishPostalCodeTest extends TestCase
     public function testIsNotGreaterThan($firstCp, $secondCp) : void
     {
         $this->assertFalse($firstCp->isGreaterThan($secondCp));
+    }
+
+    /**
+    * @dataProvider isGreaterThanOrEqualToProvider
+    */
+    public function testIsGreaterThanOrEqualTo($firstCp, $secondCp) : void
+    {
+        $this->assertTrue($firstCp->isGreaterThanOrEqualTo($secondCp));
+    }
+
+    /**
+    * @dataProvider isNotGreaterThanOrEqualToProvider
+    */
+    public function testIsNotGreaterThanOrEqualTo($firstCp, $secondCp) : void
+    {
+        $this->assertFalse($firstCp->isGreaterThanOrEqualTo($secondCp));
     }
 }
