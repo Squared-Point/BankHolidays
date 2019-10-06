@@ -33,7 +33,7 @@ class SpanishPostalCode
 
     	if(strlen($rawPostalCode) != 5)
     	{
-    		throw new InvalidPostalCodeException("Postal Code should be 6 characters long", 1);
+    		throw new InvalidPostalCodeException("Postal Code should be 5 characters long", 1);
     	}
 
     	foreach(str_split($rawPostalCode) as $char)
@@ -48,16 +48,29 @@ class SpanishPostalCode
     }
 
     /**
+     * @var $cp string or SpanishPostalCode
+     * @throws InvalidPostalCodeException
+    */
+    private function normalizeSpanishPostalCode($cp) : SpanishPostalCode
+    {
+        if( $cp instanceof SpanishPostalCode )
+        {
+            return $cp;
+        }
+        else
+        {
+            return new SpanishPostalCode($cp);
+        }
+    }
+
+    /**
     * @var $cp can be any type - we absorb bad formats as NOT greater than...
     */
     public function isGreaterThan($cp) : bool
     {
         try
         {
-            if( ! $cp instanceof SpanishPostalCode )
-            {
-                $cp = new SpanishPostalCode($cp);
-            }
+            $cp = $this->normalizeSpanishPostalCode($cp);
         }
         catch(InvalidPostalCodeException $e)
         {
@@ -79,10 +92,7 @@ class SpanishPostalCode
     {
         try
         {
-            if( ! $cp instanceof SpanishPostalCode )
-            {
-                $cp = new SpanishPostalCode($cp);
-            }
+            $cp = $this->normalizeSpanishPostalCode($cp);
         }
         catch(InvalidPostalCodeException $e)
         {
