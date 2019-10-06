@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SquaredPoint\BankHolidays;
 
 use SquaredPoint\BankHolidays\Value\SpanishPostalCode;
+use SquaredPoint\BankHolidays\Value\SpanishPostalCodeRange;
 
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +16,16 @@ class SpanishPostalCodeRangeTest extends TestCase
     {
         return array(
           array('08018', '13200'),
-          array('13200', '13200')          
+          array('13200', '13200'),
+
+          array(new SpanishPostalCode('08018'), '13200'),
+          array(new SpanishPostalCode('13200'), '13200'),
+
+          array(new SpanishPostalCode('08018'), new SpanishPostalCode('13200')),
+          array(new SpanishPostalCode('13200'), new SpanishPostalCode('13200')),
+
+          array('08018', new SpanishPostalCode('13200')),
+          array('13200', new SpanishPostalCode('13200'))
         );
     }
 
