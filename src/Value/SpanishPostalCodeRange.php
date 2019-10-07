@@ -45,4 +45,9 @@ class SpanishPostalCodeRange
             return new SpanishPostalCode($cp);
         }
     }
+
+    public function isWithinRange($cp) : bool
+    {
+        return true;
+    }
 }

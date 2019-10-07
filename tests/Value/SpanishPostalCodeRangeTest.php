@@ -36,6 +36,22 @@ class SpanishPostalCodeRangeTest extends TestCase
         );
     }
 
+    public function isWithinRangeProvider()
+    {
+        return array(
+          array('08018', '13205', '08022'),
+          array('08001', '08999', '08022'),          
+        );
+    }
+
+    public function isNotWithinRangeProvider()
+    {
+        return array(
+          array('08018', '13205', '08005'),
+          array('08001', '08999', '09022'),          
+        );
+    }
+
     protected function setUp() : void
     {
         
@@ -65,5 +81,23 @@ class SpanishPostalCodeRangeTest extends TestCase
     public function testIncorrectLenghtPostalCodes($postalCodeFrom, $postalCodeTo) : void
     {
         new SpanishPostalCodeRange($postalCodeFrom, $postalCodeTo);
+    }
+
+    /**     
+     * @dataProvider isWithinRangeProvider
+     */
+    public function testIsWithinRange($postalCodeFrom, $postalCodeTo, $postalCodeWithin) : void
+    {
+        $range = new SpanishPostalCodeRange($postalCodeFrom, $postalCodeTo);
+        $this->assertTrue($range->isWithinRange($postalCodeWithin));
+    }
+
+    /**     
+     * @dataProvider isNotWithinRangeProvider
+     */
+    public function testIsNotWithinRange($postalCodeFrom, $postalCodeTo, $postalCodeWithin) : void
+    {
+        $range = new SpanishPostalCodeRange($postalCodeFrom, $postalCodeTo);
+        $this->assertFalse($range->isWithinRange($postalCodeWithin));
     }
 }
