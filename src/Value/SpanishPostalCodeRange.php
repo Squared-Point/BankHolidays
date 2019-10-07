@@ -33,6 +33,8 @@ class SpanishPostalCodeRange
     /**
      * @var $cp string or SpanishPostalCode
      * @throws InvalidPostalCodeException
+     * @return SpanishPostalCode corresponding to $cp (regardless of if 
+     *          it was a string or a SpanishPostalCode)
     */
     private function normalizeSpanishPostalCode($cp) : SpanishPostalCode
     {
@@ -46,8 +48,24 @@ class SpanishPostalCodeRange
         }
     }
 
+    /**
+     * @var $cp string or SpanishPostalCode
+     * @throws InvalidPostalCodeException
+     * @return bool true if $cp is within $this range
+    */
     public function isWithinRange($cp) : bool
     {
+        $cp = $this->normalizeSpanishPostalCode($cp);
+        if($this->postalCodeFrom->isGreaterThan($cp))
+        {
+            return false;
+        }
+
+        if($cp->isGreaterThan($this->postalCodeTo))
+        {
+            return false;
+        }
+
         return true;
     }
 }

@@ -40,7 +40,8 @@ class SpanishPostalCodeRangeTest extends TestCase
     {
         return array(
           array('08018', '13205', '08022'),
-          array('08001', '08999', '08022'),          
+          array('08001', '08999', '08022'),
+          array('08001', '08001', '08001'),
         );
     }
 
