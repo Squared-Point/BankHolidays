@@ -79,7 +79,7 @@ class SpanishPostalCodeRangeTest extends TestCase
      * @dataProvider incorrectSpanishPostalCodeRangesProvider
      * @expectedException SquaredPoint\BankHolidays\Exception\InvalidPostalCodeRangeException
      */
-    public function testIncorrectLenghtPostalCodes($postalCodeFrom, $postalCodeTo) : void
+    public function testIncorrectSpanishPostalCodeRanges($postalCodeFrom, $postalCodeTo) : void
     {
         new SpanishPostalCodeRange($postalCodeFrom, $postalCodeTo);
     }
