@@ -1,0 +1,94 @@
+{
+	"name": "Spain",
+	"bank_holidays":
+	[
+		"2019-01-01", "2019-04-19", "2019-05-01", "2019-08-15",
+     	"2019-10-12", "2019-11-01", "2019-12-06", "2019-12-25"
+    ],
+    "constraints": 
+    {
+		"date_range":
+		{
+			"start_date": "2019-01-01",
+			"end_date": "2019-12-31"
+		},
+		"country_code": "ES"
+	},
+	"children":[
+		{	
+			"name": "Catalunya",
+			"bank_holidays":
+			[
+				"2019-05-11", "2019-09-11", "2019-07-03", "2019-03-25"
+		    ],
+		    "constraints": 
+		    {
+				"postal_code_range":
+				{
+					"start_postal_code": "08001",
+					"end_postal_code": "08999"
+				}
+			},
+			"children":[
+				{	
+					"name": "Barcelona",
+					"bank_holidays":
+					[
+						"2019-04-04", "2019-10-15"
+				    ],
+				    "constraints": 
+				    {
+						"postal_code_range":
+						{
+							"start_postal_code": "08001",
+							"end_postal_code": "08099"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Castilla La Mancha",
+			"bank_holidays":
+			[
+				"2019-01-22", "2019-07-18", "2019-10-21", "2019-12-14"
+		    ],
+		    "constraints": 
+		    {
+				"postal_code_range":
+				{
+					"start_postal_code": "28001",
+					"end_postal_code": "28999"
+				}
+			},
+			"children":[
+				{	
+					"name": "Madrid",
+					"bank_holidays":
+					[
+						"2019-06-16", "2019-02-19"
+				    ],
+				    "constraints": 
+				    {
+						"postal_code_range":
+						{
+							"start_postal_code": "28001",
+							"end_postal_code": "28099"
+						}
+					}
+				},
+				{	
+					"name": "Colmenar viejo",
+					"bank_holidays":
+					[
+						"2019-06-01", "2019-04-29"
+				    ],
+				    "constraints": 
+				    {
+						"postalCodeList": ["28770"]						
+					}
+				}
+			]
+		}
+	]
+}
