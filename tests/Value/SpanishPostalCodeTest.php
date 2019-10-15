@@ -205,4 +205,15 @@ class SpanishPostalCodeTest extends TestCase
     {
         $this->assertFalse($firstCp->isGreaterThanOrEqualTo($secondCp));
     }
+
+    public function testSpanishPostalCodeIsImmutable() : void
+    {
+        $strCp = "08019";
+        $cp = new SpanishPostalCode($strCp);
+        $this->assertTrue($cp->isGreaterThan("08011"), "witness");
+
+        str_replace("9", "0", $strCp);
+
+        $this->assertTrue($cp->isGreaterThan("08011"), "Immutability test");
+    }
 }

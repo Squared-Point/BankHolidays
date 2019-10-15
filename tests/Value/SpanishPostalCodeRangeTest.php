@@ -101,4 +101,16 @@ class SpanishPostalCodeRangeTest extends TestCase
         $range = new SpanishPostalCodeRange($postalCodeFrom, $postalCodeTo);
         $this->assertFalse($range->isWithinRange($postalCodeWithin));
     }
+
+    public function testSpanishPostalCodeRangeIsImmutable() : void
+    {
+        $postalCodeFrom = new SpanishPostalCode("08005");
+        $postalCodeTo = new SpanishPostalCode("08018");
+        $range = new SpanishPostalCodeRange($postalCodeFrom, $postalCodeTo);
+
+        $this->assertTrue($range->isWithinRange("08010"), "Witness");
+        
+        $postalCodeFrom = new SpanishPostalCode("08015"); 
+        $this->assertTrue($range->isWithinRange("08010"), "Immutability test");
+    }
 }

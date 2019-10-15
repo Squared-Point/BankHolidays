@@ -119,4 +119,16 @@ class DateRangeTest extends TestCase
         $range = new DateRange($dateFrom, $dateTo);
         $this->assertFalse($range->isWithinRange($dateWithin));
     }
+
+    public function testDateRangeIsImmutable() : void
+    {
+        $dateFrom = new \DateTime("2019-10-15");
+        $dateTo = new \DateTime("2019-11-10");
+        $range = new DateRange($dateFrom, $dateTo);
+
+        $this->assertTrue($range->isWithinRange("2019-11-01"));
+        
+        $dateTo->sub(new \DateInterval('P2W'));
+        $this->assertTrue($range->isWithinRange("2019-11-01"));
+    }
 }
