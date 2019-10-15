@@ -21,9 +21,11 @@ class BankHolidayJsonBuilderTest extends TestCase
     public function correctJsonProvider()
     {
         return [            
-            ["[]"],
-            ['{"x":"y"}'], 
-            ['["x", "y", "z"]'],
+            //["[]"],
+            //['{"x":"y"}'], 
+            //['["x", "y", "z"]'],
+            ['{"bank_holidays":[]}'],
+            ['{"name":"", "bank_holidays":[]}'],
         ];
     }
 

@@ -5,13 +5,22 @@ declare(strict_types=1);
 namespace SquaredPoint\BankHolidays;
 
 use SquaredPoint\BankHolidays\Exception\JsonDecodeException;
+use SquaredPoint\BankHolidays\Exception\BankHolidayFormatException;
+use PASVL\Traverser\VO\Traverser;
+use PASVL\ValidatorLocator\ValidatorLocator;
 
 class BankHolidayJsonBuilder
 {
+	private $constraintBuilders;
+	private $constraintsList;
+	private $children;
+	private $bankHolidayList;
 
 	public function __construct(string $bankHolidayDescriptor)
 	{
 		$bankHolidayArray = $this->jsonDecode($bankHolidayDescriptor);
+		$this->validateBankHolidayFormat($bankHolidayArray);
+
 	}
 
 	private function jsonDecode(string $bankHolidayDescriptor) : array
@@ -46,5 +55,21 @@ class BankHolidayJsonBuilder
 		}
 
 		throw new JsonDecodeException($error);
+	}
+
+	
+	private function validateBankHolidayFormat($bankHolidayArray)
+	{
+		$pattern = [
+		    "bank_holidays" => ["*" => ":string :date"],
+		    "name?" => ":string"
+		];
+
+		$traverser = new Traverser(new ValidatorLocator());
+
+		 if(! $traverser->check($pattern, $bankHolidayArray))
+		 {
+		 	throw new BankHolidayFormatException("Incorrect input format", 1);
+		 }
 	}
 }
