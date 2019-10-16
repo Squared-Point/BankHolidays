@@ -36,12 +36,16 @@ class DateRange
      * @return \DateTime corresponding to $date (regardless of if 
      *          it was a string or a \DateTime)
     */
-    private function normalizeDate($date) : \DateTime
+    private function normalizeDate($date) : \DateTimeImmutable
     {
-        if( ! $date instanceof \DateTime )
+        if($date instanceof \DateTime )
         {
-            $date = new \DateTime($date);
-        }        
+            $date = \DateTimeImmutable::createFromMutable($date);
+        }
+        elseif( ! $date instanceof \DateTimeImmutable )
+        {
+            $date = new \DateTimeImmutable($date);
+        }
 
         return $date->setTime(0,0,0,0);
     }
