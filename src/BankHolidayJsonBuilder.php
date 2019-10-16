@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SquaredPoint\BankHolidays;
 
+use SquaredPoint\BankHolidays\Value\BankHolidayAdmin;
 use SquaredPoint\BankHolidays\Exception\JsonDecodeException;
 use SquaredPoint\BankHolidays\Exception\BankHolidayFormatException;
 use PASVL\Traverser\VO\Traverser;
@@ -18,9 +19,14 @@ class BankHolidayJsonBuilder
 
 	public function __construct(string $bankHolidayDescriptor)
 	{
-		$bankHolidayArray = $this->jsonDecode($bankHolidayDescriptor);
+		$bankHolidayArray = $this->jsonDecode($bankHolidayDescriptor);		
 		$this->validateBankHolidayFormat($bankHolidayArray);
 
+		$holidayList = $bankHolidayArray["bank_holidays"];
+		$options = $bankHolidayArray;
+		unset($options["bank_holidays"]);
+
+		$this->createBankHolidayAdmin($holidayList, $options);
 	}
 
 	private function jsonDecode(string $bankHolidayDescriptor) : array
@@ -57,7 +63,18 @@ class BankHolidayJsonBuilder
 		throw new JsonDecodeException($error);
 	}
 
-	
+	public function createBankHolidayAdmin($holidayList, $rawOptions) : BankHolidayAdmin
+	{
+		$options = [];
+		if(array_key_exists("name", $rawOptions))
+		{
+			$options["name"] = $rawOptions["name"];
+		}
+
+		return new BankHolidayAdmin($holidayList, $options);
+	}
+
+	// https://lessthan12ms.com/how-to-validate-a-php-array-format-structure/
 	private function validateBankHolidayFormat($bankHolidayArray)
 	{
 		$pattern = [
