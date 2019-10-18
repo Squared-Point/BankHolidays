@@ -82,4 +82,16 @@ class BankHolidaysTest extends TestCase
         $bh = $this->buildBankHolidays2019();
         $bh->isBankHoliday($day);
     }
+
+    public function testBankHolidayIsImmutable() : void
+    {
+        $date = new \DateTime("2019-06-01 00:00:00");
+        
+        $bh = new BankHolidays(new DateRange("2019-01-01", "2020-01-01"), [$date]);
+        $this->assertTrue($bh->isBankHoliday("2019-06-01"), "Witness");
+
+        $date->sub(new \DateInterval("P2W"));        
+
+        $this->assertTrue($bh->isBankHoliday("2019-06-01"), "Immutability Test");
+    }
 }
