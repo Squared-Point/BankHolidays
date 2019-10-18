@@ -20,10 +20,10 @@ class BankHolidaysTest extends TestCase
                 "2019-10-12", "2019-11-01", "2019-12-06", "2019-12-25"
         ];
 
-        return  new BankHolidayAdmin($holidays2019);
+        return new BankHolidayAdmin($holidays2019);
     }
 
-    public function correctBankHoliday2019Provider()
+    public function isBankHoliday2019Provider()
     {
         return [
             ["2019-01-01"], ["2019-04-19"], ["2019-05-01"], ["2019-08-15"],
@@ -34,7 +34,7 @@ class BankHolidaysTest extends TestCase
         ];
     }
 
-    public function incorrectBankHoliday2019Provider()
+    public function isNotBankHoliday2019Provider()
     {
         return [
             ["2019-01-02"], ["2019-04-20"], ["2019-05-10"], ["2019-07-15"],
@@ -45,8 +45,24 @@ class BankHolidaysTest extends TestCase
         ];
     }
 
+    public function correctBankHolidayOptionsProvider()
+    {
+        return [
+            [[]],
+            [['name' => 'first-day-off']]
+        ];
+    }
+
+    public function incorrectBankHolidayOptionsProvider()
+    {
+        return [
+            [['dummy-key' => 'dummy-value']],
+            [['name' => 'first-day-off', 'dummy-key' => 'dummy-value']]
+        ];
+    }
+
     /**
-    * @dataProvider correctBankHoliday2019Provider
+    * @dataProvider isBankHoliday2019Provider
     */
     public function testIsBankHoliday2019($day) : void
     {
@@ -55,12 +71,30 @@ class BankHolidaysTest extends TestCase
     }
 
     /**
-    * @dataProvider incorrectBankHoliday2019Provider
+    * @dataProvider isNotBankHoliday2019Provider
     */
     public function testIsNotBankHoliday2019($day) : void
     {
         $bh = $this->buildBankHolidays2019();
         $this->assertFalse($bh->isBankHoliday($day));        
+    }
+
+     /**
+    * @dataProvider correctBankHolidayOptionsProvider
+    */
+    public function testCorrectBankHolidayOptions($options) : void
+    {
+        new BankHolidayAdmin([], $options);
+        $this->assertTrue(true);
+    }
+
+    /**
+    * @dataProvider incorrectBankHolidayOptionsProvider
+    * @expectedException SquaredPoint\BankHolidays\Exception\BankHolidayFormatException
+    */
+    public function testIncorrectBankHolidayOptions($options) : void
+    {
+        new BankHolidayAdmin([], $options);
     }
 
     public function testBankHolidayAdminIsImmutable() : void
