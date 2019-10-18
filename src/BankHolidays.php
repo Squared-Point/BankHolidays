@@ -36,13 +36,18 @@ class BankHolidays
 		$this->bankHolidays[]=$bankHoliday;
 	}
 
-	private function normalizeDay($date) : \DateTime
+	private function normalizeDay($date) : \DateTimeImmutable
 	{
-		if( ! $date instanceof \DateTime)
-		{
-			$date = new \DateTime($date);
-		}
-		return $date->setTime(0,0,0,0);
+		if($date instanceof \DateTime )
+        {
+            $date = \DateTimeImmutable::createFromMutable($date);
+        }
+        elseif( ! $date instanceof \DateTimeImmutable )
+        {
+            $date = new \DateTimeImmutable($date);
+        }
+
+        return $date->setTime(0,0,0,0);
 	}
 
 	public function isBankHoliday($date) : bool
