@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SquaredPoint\BankHolidays\Value;
 
-use SquaredPoint\BankHolidays\Exception\InvalidPostalCodeException;
+use SquaredPoint\BankHolidays\Exception\BankHolidayFormatException;
 use PASVL\Traverser\VO\Traverser;
 use PASVL\ValidatorLocator\ValidatorLocator;
 
