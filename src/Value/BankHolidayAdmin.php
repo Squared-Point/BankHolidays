@@ -19,23 +19,39 @@ class BankHolidayAdmin
     private $name;
 
    /**
-    * @var $bankHolidays
+    * @var $bankHolidays array of string or dates (possibly immutables)
     * @var $options array
     */
     public function __construct(array $bankHolidays, array $options=[])
     {
         $this->bankHolidays = [];
         $this->name = null;
-        foreach($bankHolidays as $holiday)
-        {
-            $this->add($holiday);
-        }
 
+        $this->initializeBankHolidays($bankHolidays);
     	$this->validateOptions($options);
 
         if(array_key_exists("name", $options))
         {
             $this->name = $options["name"];
+        }
+    }
+
+    /**
+     * @var $bankHolidays
+     * @throws BankHolidayFormatException
+     */
+    private function initializeBankHolidays($bankHolidays)
+    {
+        try
+        {
+            foreach($bankHolidays as $holiday)
+            {
+                $this->add($holiday);
+            }
+        }
+        catch( BankHolidayFormatException $e )
+        {
+            throw new BankHolidayFormatException("Incorrect Date format exception when initializing bank holiday administrator.");
         }
     }
 
@@ -56,9 +72,14 @@ class BankHolidayAdmin
         {
             $date = \DateTimeImmutable::createFromMutable($date);
         }
-        elseif( ! $date instanceof \DateTimeImmutable )
+        elseif( is_string($date) )
         {
             $date = new \DateTimeImmutable($date);
+        }
+        elseif( ! $date instanceof \DateTimeImmutable )
+        {
+            throw new BankHolidayFormatException("Error in date format", 1);
+            
         }
 
         return $date->setTime(0,0,0,0);

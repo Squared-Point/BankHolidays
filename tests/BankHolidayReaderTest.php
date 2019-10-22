@@ -6,6 +6,7 @@ namespace SquaredPoint\BankHolidays;
 
 use PHPUnit\Framework\TestCase;
 use SquaredPoint\BankHolidays\BankHolidayReader;
+use SquaredPoint\BankHolidays\Value\BankHolidayAdmin;
 
 class BankHolidayReaderTest extends TestCase
 {
@@ -27,6 +28,31 @@ class BankHolidayReaderTest extends TestCase
     {
         return [
             ["dummy.json"]
+        ];
+    }
+
+    public function correctSpanishBankHolidays()
+    {
+        return [
+            ["2019-01-01"], 
+            ["2019-04-19"], 
+            ["2019-05-01"], 
+            ["2019-08-15"],
+            ["2019-10-12"], 
+            ["2019-11-01"], 
+            ["2019-12-06"], 
+            ["2019-12-25"]
+        ];
+    }
+
+    public function incorrectSpanishBankHolidays()
+    {
+        return [
+            ["2019-01-02"], 
+            ["2019-04-10"], 
+            ["2019-05-11"], 
+            ["2019-08-11"],
+            ["2019-10-11"]
         ];
     }
 
@@ -59,5 +85,35 @@ class BankHolidayReaderTest extends TestCase
         json_decode($json);
 
         $this->assertTrue(json_last_error() == JSON_ERROR_NONE);
+    }
+
+    /**
+     * @dataProvider correctSpanishBankHolidays
+     */
+    public function testCorrectBankHoliday($day) : void
+    {
+        $reader = new BankHolidayReader();
+        $json = $reader->readSingleFile("ES/2019/national.json");
+        
+        $descriptor = json_decode($json, true);
+        $bankHolidays = $descriptor['bankHolidays'];
+        $admin = new BankHolidayAdmin($bankHolidays);
+
+        $this->assertTrue($admin->isBankHoliday($day));
+    }
+
+    /**
+     * @dataProvider incorrectSpanishBankHolidays
+     */
+    public function testIncorrectBankHoliday($day) : void
+    {
+        $reader = new BankHolidayReader();
+        $json = $reader->readSingleFile("ES/2019/national.json");
+
+        $descriptor = json_decode($json, true);
+        $bankHolidays = $descriptor['bankHolidays'];
+        $admin = new BankHolidayAdmin($bankHolidays);
+
+        $this->assertFalse($admin->isBankHoliday($day));
     }
 }
