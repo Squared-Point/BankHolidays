@@ -104,7 +104,9 @@ class BankHolidayAdmin
     private function validateOptions(array $options)
     {
          $pattern = [        
-            "name?" => ":string"
+            "name?" => ":string",
+            "constraints?" => ":any",
+            "children?" => ":any"
         ];
 
         $traverser = new Traverser(new ValidatorLocator());

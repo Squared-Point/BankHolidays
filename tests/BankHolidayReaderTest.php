@@ -93,11 +93,9 @@ class BankHolidayReaderTest extends TestCase
     public function testCorrectBankHoliday($day) : void
     {
         $reader = new BankHolidayReader();
-        $json = $reader->readSingleFile("ES/2019/national.json");
-        
-        $descriptor = json_decode($json, true);
-        $bankHolidays = $descriptor['bankHolidays'];
-        $admin = new BankHolidayAdmin($bankHolidays);
+        list($bankHolidays, $options) = $reader->readAndParseSingleFile("ES/2019/national.json");
+
+        $admin = new BankHolidayAdmin($bankHolidays, $options);
 
         $this->assertTrue($admin->isBankHoliday($day));
     }
@@ -108,11 +106,13 @@ class BankHolidayReaderTest extends TestCase
     public function testIncorrectBankHoliday($day) : void
     {
         $reader = new BankHolidayReader();
-        $json = $reader->readSingleFile("ES/2019/national.json");
+        // $json = $reader->readSingleFile("ES/2019/national.json");
+        // $descriptor = json_decode($json, true);
+        // $bankHolidays = $descriptor['bankHolidays'];
 
-        $descriptor = json_decode($json, true);
-        $bankHolidays = $descriptor['bankHolidays'];
-        $admin = new BankHolidayAdmin($bankHolidays);
+        list($bankHolidays, $options) = $reader->readAndParseSingleFile("ES/2019/national.json");
+
+        $admin = new BankHolidayAdmin($bankHolidays, $options);
 
         $this->assertFalse($admin->isBankHoliday($day));
     }

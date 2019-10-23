@@ -21,6 +21,16 @@ class BankHolidayReader
 		$this->baseDir = $baseDir;
 	}
 
+	public function readAndParseSingleFile($filename) : array
+	{
+		$json = $this->readSingleFile($filename);
+        $descriptor = json_decode($json, true);
+        $bankHolidays = $descriptor['bank_holidays'];
+        unset($descriptor['bank_holidays']);
+        
+        return [$bankHolidays, $descriptor];
+	}
+
 	public function readSingleFile($filename) : string
 	{
 		$fullFilename=$this->baseDir."/".$filename;		
